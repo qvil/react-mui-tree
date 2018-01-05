@@ -3,18 +3,12 @@ import React, { Component } from 'react';
 // Material-UI
 import { withStyles } from 'material-ui/styles';
 import ListSubheader from 'material-ui/List/ListSubheader';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Collapse from 'material-ui/transitions/Collapse';
-import InboxIcon from 'material-ui-icons/MoveToInbox';
-import DraftsIcon from 'material-ui-icons/Drafts';
-import SendIcon from 'material-ui-icons/Send';
-import ExpandLess from 'material-ui-icons/ExpandLess';
-import ExpandMore from 'material-ui-icons/ExpandMore';
-import StarBorder from 'material-ui-icons/StarBorder'
+import List from 'material-ui/List';
 // Custom
 import NestedList from './NestedList';
+import data from './data.json';
 // Others
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 const styles = theme => ({
   root: {
@@ -44,32 +38,64 @@ const styles = theme => ({
   //   backgroundColor: 'blue',
   // },
 });
+let i = 1;
 
 class Tree extends Component {
-  state = {
-    text: "1"
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: "Group Concept UI",
+      data: this._createData(data),
+    };
   }
+
+
+  _createData = data => {
+    let newData = [];
+
+    for (let group in data) {
+      console.log(data[group])
+      if (data[group].parentid === "0") {
+        newData.push(data[group]);
+      }
+
+      newData.map(value => {
+        console.log(value.groupid)
+      })
+      // data[group]
+      // if (data[group].parentid === "0") {
+      //   newData
+      // }
+
+    }
+
+    console.log(newData);
+    // return newData;
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
       <div style={{ overflow: 'auto' }}>
-      <List className={classes.root} subheader={
-        <ListSubheader onClick={() => this.setState({ text: `${this.state.text}1` })}>{this.state.text}</ListSubheader>
-      }>
-        <NestedList text={this.state.text}
-          child={
-            <NestedList text={this.state.text} child={
+        <List className={classes.root} subheader={
+          <ListSubheader onClick={() => this.setState({ text: `${this.state.text}1` })}>{this.state.text}</ListSubheader>
+        }>
+          {
+          }
+          <NestedList text={this.state.text}
+            child={
               <NestedList text={this.state.text} child={
-                <NestedList text={this.state.text} child={
+                <NestedList special text={this.state.text} child={
                   <NestedList text={this.state.text} child={
-                    <NestedList text={this.state.text} />
+                    <NestedList text={this.state.text} child={
+                      <NestedList text={this.state.text} />
+                    } />
                   } />
                 } />
               } />
             } />
-          } />
-      </List>
+        </List>
       </div>
     );
   }
