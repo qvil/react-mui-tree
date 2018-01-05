@@ -12,13 +12,15 @@ import ExpandLess from 'material-ui-icons/ExpandLess';
 import ExpandMore from 'material-ui-icons/ExpandMore';
 import StarBorder from 'material-ui-icons/StarBorder'
 // Custom
+import NestedList from './NestedList';
 // Others
 import PropTypes from 'prop-types';
 
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
+    // maxWidth: 360,
+    overflow: 'auto',
     background: theme.palette.background.paper,
   },
   nested: {
@@ -45,54 +47,30 @@ const styles = theme => ({
 
 class Tree extends Component {
   state = {
-    open: true,
-    open2: true,
-  };
-
-  handleClick = () => {
-    this.setState({ open: !this.state.open });
-  };
-
-  handleClick2 = () => {
-    this.setState({ open2: !this.state.open2 });
-  };
-
+    text: "1"
+  }
   render() {
     const { classes } = this.props;
 
     return (
-      <List className={classes.root} subheader={<ListSubheader>Nested List Items</ListSubheader>}>
-        <ListItem button onClick={this.handleClick}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText inset primary="Inbox" />
-          {this.state.open ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse component="li" in={this.state.open} timeout="auto" unmountOnExit>
-          <List disablePadding>
-            <ListItem button className={classes.nested} onClick={this.handleClick2}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText inset primary="Inbox" />
-              {this.state.open2 ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse component="li" in={this.state.open2} timeout="auto" unmountOnExit>
-              <List disablePadding>
-                <ListItem button className={classes.nested2}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Starred" />
-                </ListItem>
-
-              </List>
-            </Collapse>
-
-          </List>
-        </Collapse>
+      <div style={{ overflow: 'auto' }}>
+      <List className={classes.root} subheader={
+        <ListSubheader onClick={() => this.setState({ text: `${this.state.text}1` })}>{this.state.text}</ListSubheader>
+      }>
+        <NestedList text={this.state.text}
+          child={
+            <NestedList text={this.state.text} child={
+              <NestedList text={this.state.text} child={
+                <NestedList text={this.state.text} child={
+                  <NestedList text={this.state.text} child={
+                    <NestedList text={this.state.text} />
+                  } />
+                } />
+              } />
+            } />
+          } />
       </List>
+      </div>
     );
   }
   // render() {
